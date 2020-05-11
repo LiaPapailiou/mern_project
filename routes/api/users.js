@@ -3,7 +3,8 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const fs = require('fs');
+const path = require('path');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
@@ -42,8 +43,13 @@ router.post('/', [
 
         await user.save();
         const payload = { user: { id: user.id } };
+        const privateKey = fs.readFileSync(path.join(__dirname, '../../jwtkeys/jwtRS256.key'), 'utf8');
+        const signOptions = {
+            expiresIn: '7d',
+            algorithm: 'RS256',
+        }
 
-        jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '24h' }, (err, token) => {
+        jwt.sign(payload, privateKey, signOptions, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });

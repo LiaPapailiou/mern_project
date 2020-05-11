@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
-const config = require('config');
+const fs = require('fs');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
@@ -20,6 +21,7 @@ router.get('/', auth, async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 // @route  POST api/users
 // @desc   Authenticate User and get token
@@ -48,8 +50,13 @@ router.post('/', [
         }
 
         const payload = { user: { id: user.id } };
+        const privateKey = fs.readFileSync(path.join(__dirname, '../../jwtkeys/jwtRS256.key'), 'utf8');
+        const signOptions = {
+            expiresIn: '7d',
+            algorithm: 'RS256',
+        }
 
-        jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '24h' }, (err, token) => {
+        jwt.sign(payload, privateKey, signOptions, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
