@@ -14,18 +14,14 @@ const User = require('../../models/User');
 // @desc   Register user
 // @access Public
 router.post('/', [
-    check('name', 'Name is required')
-        .not()
-        .isEmpty(),
+    check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Passwords must be between 5 and 10 characters long').isLength({ min: 6, max: 12 }),
 ], async (req, res) => {
     const { name, email, password } = req.body;
 
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
     try {
         let user = await User.findOne({ email });
