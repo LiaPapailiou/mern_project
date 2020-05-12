@@ -117,7 +117,7 @@ router.get('/user/:user_id', async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        if (err.kind == 'ObjectId') return res.status(400).json({ msg: 'Profile Not Found' });
+        if (err.kind === 'ObjectId') return res.status(400).json({ msg: 'Profile Not Found' });
         res.status(500).send('Internal Server Error');
     }
 });
@@ -275,7 +275,8 @@ router.get('/github/:username', async (req, res) => {
         const options = {
             uri: `https://api.github.com/users/${req.params.username}/repos/?per_page=5&sort=created:asc&client_id=${config.get('githubClientId')}&client_secret=${config.get('githubSecret')}`,
             method: 'GET',
-            headers: { 'user-agent': 'node.js' }
+            headers: { 'user-agent': 'node.js' },
+            accept: 'application/vnd.github.v3+json'
         };
         request(options, (error, response, body) => {
             if (error) console.error(error);
