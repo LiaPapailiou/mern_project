@@ -69,7 +69,7 @@ router.post('/', [auth, [
 
     try {
         let profile = await Profile.findOne({ user: req.user.id });
-        // UPDATE
+        // Update
         if (profile) {
             profile = await Profile.findOneAndUpdate(
                 { user: req.user.id },
@@ -79,13 +79,43 @@ router.post('/', [auth, [
             return res.json(profile);
         }
 
-        // CREATE
+        // Create
         profile = new Profile(profileFields);
         await profile.save();
         res.json(profile);
 
     } catch (err) {
-        console.error(err);
+        console.error(err.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// @route  GET api/profile
+// @desc   Get all profiles
+// @access Public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('User', ['name', 'avatar']);
+        res.json(profiles);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// @route  GET api/profile/user/:user_id
+// @desc   Get profile by user_id
+// @access Public
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.params.user_id }).populate('User', ['name', 'avatar']);
+        if (!profile) return res.status(400).json({ msg: 'Profile Not Found' });
+        res.json(profile);
+
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind == 'ObjectId') return res.status(400).json({ msg: 'Profile Not Found' });
         res.status(500).send('Internal Server Error');
     }
 });
