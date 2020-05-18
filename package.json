@@ -8,7 +8,9 @@
     "pretest": "npm run lint",
     "test": "jest .",
     "start": "node server",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Lia Papailiou",
   "license": "MIT",
