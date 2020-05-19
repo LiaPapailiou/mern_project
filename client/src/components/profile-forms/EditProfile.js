@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createProfile, getCurrentProfile } from '../../actions/profile'
@@ -58,7 +58,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
             instagram: loading || !profile.social ? '' : profile.instagram,
             linkedin: loading || !profile.social ? '' : profile.linkedin
         });
-    }, [loading]);
+    }, [loading, getCurrentProfile]);
     return (
         <Fragment>
             <h1 className="large text-primary">
@@ -185,4 +185,4 @@ const mapStateToProps = (state) => ({
     profile: state.profile
 })
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(EditProfile))
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(EditProfile)

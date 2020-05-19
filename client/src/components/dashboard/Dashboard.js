@@ -12,7 +12,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
 
     useEffect(() => {
         getCurrentProfile();
-    }, []);
+    }, [getCurrentProfile]);
     return loading && profile === null ? <Spinner /> : <Fragment>
         <h1 className="large text-primary">Dashboard</h1>
         <p className="lead">
