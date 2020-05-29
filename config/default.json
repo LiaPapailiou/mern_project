@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "mongoURI": "mongodb+srv://LiaP:LiaP@cluster0-rz1iu.mongodb.net/test?retryWrites=true&w=majority",
     "githubClientId": "e9b4590ef3769988f360",
     "githubSecret": "ea2b989dc2894f597e9a588c25672109cf604e4c"
+=======
+    "mongoURI": "mongodb+srv://LiaP:LiaP@cluster0-rz1iu.mongodb.net/test?retryWrites=true&w=majority"
+>>>>>>> client
 }
