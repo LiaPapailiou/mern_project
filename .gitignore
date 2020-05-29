@@ -1,1 +1,5 @@
 node_modules/
+.env
+/jwtkeys
+default.json
+production.json
