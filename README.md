@@ -1,1 +1,7 @@
-# mernstack_project
+# Project using the MERN stack
+
+## Installation
+
+```bash
+npm install
+```
